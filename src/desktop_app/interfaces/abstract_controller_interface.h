@@ -1,16 +1,22 @@
 #pragma once
 
 #include <QObject>
+#include <string>
 
 class AbstractControllerInterface : public QObject
 {
     Q_OBJECT
-    public:
-        virtual ~AbstractControllerInterface();
 
-        virtual void send(std::string message);
+public:
 
-    signals:
-        void receive(std::string message);
+    using QObject::QObject;
 
+    explicit AbstractControllerInterface(QObject *parent = nullptr)
+        : QObject(parent) {}
+    virtual ~AbstractControllerInterface() {}
+
+    virtual void send(const std::string &message) = 0;
+
+signals:
+    void receive(const std::string &message);
 };

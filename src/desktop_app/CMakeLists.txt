@@ -1,9 +1,7 @@
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick)
-
-qt_standard_project_setup(REQUIRES 6.5)
-
 add_library(powder_trickler_lib STATIC
     controller/control_manager.cpp
+    interfaces/abstract_controller_interface.cpp
+    interfaces/uart_interface.cpp
 )
 
 target_include_directories(powder_trickler_lib PUBLIC
@@ -15,6 +13,7 @@ target_link_libraries(powder_trickler_lib PUBLIC
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+    Qt6::SerialPort
 )
 
 qt_add_executable(powder_trickler_desktop
