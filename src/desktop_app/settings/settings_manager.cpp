@@ -1,5 +1,5 @@
 #include "settings_manager.h"
-#include "interfaces/uart_interface.h"
+#include "../interfaces/uart_interface.h"
 
 #include <QSerialPortInfo>
 #include <QDebug>

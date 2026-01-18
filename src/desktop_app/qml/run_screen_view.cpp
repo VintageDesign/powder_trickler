@@ -1,4 +1,4 @@
-#include "run_screen_view.h"
+#include "qml/run_screen_view.h"
 
 RunScreenView::RunScreenView(QObject *parent)
     : QObject(parent)

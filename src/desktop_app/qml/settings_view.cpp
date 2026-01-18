@@ -1,4 +1,4 @@
-#include "settings_view.h"
+#include "qml/settings_view.h"
 #include <QDebug>
 
 SettingsView::SettingsView(QObject *parent)
