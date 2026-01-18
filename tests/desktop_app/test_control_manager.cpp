@@ -59,22 +59,3 @@ TEST_F(ControlManagerTest, DecrementDoesNotGoBelowZero)
     EXPECT_EQ(spy.takeFirst().at(0).toString().toStdString(), "0.0");
 }
 
-TEST_F(ControlManagerTest, ViewConnection)
-{
-    ControlManager manager(nullptr);
-    RunScreenView view;
-
-    manager.connectView(&view);
-
-    QSignalSpy viewSpy(&view, &RunScreenView::setpointChanged);
-
-    view.increment();
-
-    EXPECT_EQ(viewSpy.count(), 1);
-    EXPECT_EQ(view.setpoint().toStdString(), "0.1");
-
-    view.decrement();
-
-    EXPECT_EQ(viewSpy.count(), 2);
-    EXPECT_EQ(view.setpoint().toStdString(), "0.0");
-}

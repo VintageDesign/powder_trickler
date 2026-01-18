@@ -1,21 +1,10 @@
 #include "control_manager.h"
-#include <run_screen_view.h>
 
 ControlManager::ControlManager(const std::shared_ptr<AbstractControllerInterface> &controller,
                                QObject *parent)
     : QObject(parent)
     , _controller(controller)
 {
-}
-
-void ControlManager::connectView(RunScreenView *view)
-{
-    connect(view, &RunScreenView::incrementRequested, this, &ControlManager::increment);
-    connect(view, &RunScreenView::decrementRequested, this, &ControlManager::decrement);
-    connect(view, &RunScreenView::dispenseRequested, this, &ControlManager::dispense);
-
-    connect(this, &ControlManager::setpointChanged, view, &RunScreenView::onSetpointChanged);
-    connect(this, &ControlManager::actualValueChanged, view, &RunScreenView::onActualValueChanged);
 }
 
 void ControlManager::increment()

@@ -6,7 +6,6 @@
 
 #include <interfaces/abstract_controller_interface.h>
 
-class RunScreenView;
 
 class ControlManager : public QObject
 {
@@ -15,8 +14,6 @@ class ControlManager : public QObject
 public:
     explicit ControlManager(const std::shared_ptr<AbstractControllerInterface> &controller,
                             QObject *parent = nullptr);
-
-    void connectView(RunScreenView *view);
 
 public slots:
     void increment();

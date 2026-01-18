@@ -31,8 +31,14 @@ int main(int argc, char *argv[])
 
     auto *rootObject = engine.rootObjects().first();
     auto *view = rootObject->findChild<RunScreenView*>();
+
     if (view) {
-        controlManager.connectView(view);
+        QObject::connect(view, &RunScreenView::incrementRequested, &controlManager, &ControlManager::increment);
+        QObject::connect(view, &RunScreenView::decrementRequested, &controlManager, &ControlManager::decrement);
+        QObject::connect(view, &RunScreenView::dispenseRequested, &controlManager, &ControlManager::dispense);
+
+        QObject::connect(&controlManager, &ControlManager::setpointChanged, view, &RunScreenView::onSetpointChanged);
+        QObject::connect(&controlManager, &ControlManager::actualValueChanged, view, &RunScreenView::onActualValueChanged);
     }
 
     return app.exec();
