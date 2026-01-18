@@ -3,9 +3,9 @@
 #include <QUrl>
 
 #include "controller/control_manager.h"
-#include "controller/settings_manager.h"
-#include "run_screen_view.h"
-#include "settings_view.h"
+#include "settings/settings_manager.h"
+#include "qml/run_screen_view.h"
+#include "qml/settings_view.h"
 
 int main(int argc, char *argv[])
 {

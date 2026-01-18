@@ -2,7 +2,7 @@
 #include <QSignalSpy>
 #include <QCoreApplication>
 
-#include "controller/settings_manager.h"
+#include "settings/settings_manager.h"
 #include "interfaces/uart_interface.h"
 
 class SettingsManagerTest : public ::testing::Test
