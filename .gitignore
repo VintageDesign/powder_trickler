@@ -13,6 +13,9 @@
 # build dir
 build/*
 
+# Claude
+.claude/*
+
 # vim
 *~
 *.swp
