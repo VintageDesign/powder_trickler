@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QObject>
-#include <QString>
 #include <memory>
 
 #include <interfaces/abstract_controller_interface.h>
@@ -19,10 +18,11 @@ public slots:
     void increment();
     void decrement();
     void dispense();
+    void setSetpoint(double value);
 
 signals:
-    void setpointChanged(const QString &value);
-    void actualValueChanged(const QString &value);
+    void setpointChanged(double value);
+    void actualValueChanged(double value);
 
 private:
     std::shared_ptr<AbstractControllerInterface> _controller;

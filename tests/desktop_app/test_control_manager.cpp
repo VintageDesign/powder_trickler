@@ -3,7 +3,6 @@
 #include <QCoreApplication>
 
 #include "controller/control_manager.h"
-#include "run_screen_view.h"
 
 class ControlManagerTest : public ::testing::Test
 {
@@ -20,12 +19,12 @@ TEST_F(ControlManagerTest, Increment)
     manager.increment();
 
     EXPECT_EQ(spy.count(), 1);
-    EXPECT_EQ(spy.takeFirst().at(0).toString().toStdString(), "0.1");
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 0.1);
 
     manager.increment();
 
     EXPECT_EQ(spy.count(), 1);
-    EXPECT_EQ(spy.takeFirst().at(0).toString().toStdString(), "0.2");
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 0.2);
 }
 
 TEST_F(ControlManagerTest, Decrement)
@@ -40,7 +39,7 @@ TEST_F(ControlManagerTest, Decrement)
     manager.decrement();
 
     EXPECT_EQ(spy.count(), 1);
-    EXPECT_EQ(spy.takeFirst().at(0).toString().toStdString(), "0.1");
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 0.1);
 }
 
 TEST_F(ControlManagerTest, DecrementDoesNotGoBelowZero)
@@ -51,11 +50,47 @@ TEST_F(ControlManagerTest, DecrementDoesNotGoBelowZero)
     manager.decrement();
 
     EXPECT_EQ(spy.count(), 1);
-    EXPECT_EQ(spy.takeFirst().at(0).toString().toStdString(), "0.0");
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 0.0);
 
     manager.decrement();
 
     EXPECT_EQ(spy.count(), 1);
-    EXPECT_EQ(spy.takeFirst().at(0).toString().toStdString(), "0.0");
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 0.0);
+}
+
+TEST_F(ControlManagerTest, SetSetpointValidInput)
+{
+    ControlManager manager(nullptr);
+    QSignalSpy spy(&manager, &ControlManager::setpointChanged);
+
+    manager.setSetpoint(5.5);
+
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 5.5);
+}
+
+TEST_F(ControlManagerTest, SetSetpointNegativeClampedToZero)
+{
+    ControlManager manager(nullptr);
+    QSignalSpy spy(&manager, &ControlManager::setpointChanged);
+
+    manager.setSetpoint(-3.0);
+
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 0.0);
+}
+
+TEST_F(ControlManagerTest, SetSetpointThenIncrement)
+{
+    ControlManager manager(nullptr);
+    QSignalSpy spy(&manager, &ControlManager::setpointChanged);
+
+    manager.setSetpoint(10.0);
+    spy.clear();
+
+    manager.increment();
+
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_DOUBLE_EQ(spy.takeFirst().at(0).toDouble(), 10.1);
 }
 

@@ -10,7 +10,7 @@ ControlManager::ControlManager(const std::shared_ptr<AbstractControllerInterface
 void ControlManager::increment()
 {
     _setpoint_value += 0.1;
-    emit setpointChanged(QString::number(_setpoint_value, 'f', 1));
+    emit setpointChanged(_setpoint_value);
 }
 
 void ControlManager::decrement()
@@ -18,10 +18,19 @@ void ControlManager::decrement()
     _setpoint_value -= 0.1;
     if (_setpoint_value < 0)
         _setpoint_value = 0;
-    emit setpointChanged(QString::number(_setpoint_value, 'f', 1));
+    emit setpointChanged(_setpoint_value);
 }
 
 void ControlManager::dispense()
 {
     // TODO: Implement dispense logic using _controller
+}
+
+void ControlManager::setSetpoint(double value)
+{
+    if (value < 0)
+        value = 0;
+
+    _setpoint_value = value;
+    emit setpointChanged(_setpoint_value);
 }

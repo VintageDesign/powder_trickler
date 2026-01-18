@@ -26,11 +26,20 @@ ApplicationWindow {
             font.pixelSize: 32
             color: "#aaaaaa"
         }
-        Label {
+        TextField {
+            id: setpointInput
             Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: 150
             text: viewModel.setpoint
             font.pixelSize: 32
-            color: "#aaaaaa"
+            color: "#ffffff"
+            horizontalAlignment: Text.AlignHCenter
+            inputMethodHints: Qt.ImhFormattedNumbersOnly
+            background: Rectangle {
+                color: "#333333"
+                radius: 5
+            }
+            onEditingFinished: viewModel.setSetpointInput(text)
         }
 
         RowLayout {

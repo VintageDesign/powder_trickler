@@ -20,12 +20,13 @@ public:
     QString actualValue() const;
 
 public slots:
-    void onSetpointChanged(const QString &value);
-    void onActualValueChanged(const QString &value);
+    void onSetpointChanged(double value);
+    void onActualValueChanged(double value);
 
     void increment();
     void decrement();
     void dispense();
+    void setSetpointInput(const QString &value);
 
 signals:
     void setpointChanged();
@@ -34,6 +35,7 @@ signals:
     void incrementRequested();
     void decrementRequested();
     void dispenseRequested();
+    void setpointInputRequested(double value);
 
 private:
     QString m_setpoint = "0.0";

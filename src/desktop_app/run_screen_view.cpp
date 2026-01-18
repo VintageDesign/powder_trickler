@@ -15,21 +15,23 @@ QString RunScreenView::actualValue() const
     return m_actualValue;
 }
 
-void RunScreenView::onSetpointChanged(const QString &value)
+void RunScreenView::onSetpointChanged(double value)
 {
-    if (m_setpoint == value)
+    QString strValue = QString::number(value, 'f', 1);
+    if (m_setpoint == strValue)
         return;
 
-    m_setpoint = value;
+    m_setpoint = strValue;
     emit setpointChanged();
 }
 
-void RunScreenView::onActualValueChanged(const QString &value)
+void RunScreenView::onActualValueChanged(double value)
 {
-    if (m_actualValue == value)
+    QString strValue = QString::number(value, 'f', 1);
+    if (m_actualValue == strValue)
         return;
 
-    m_actualValue = value;
+    m_actualValue = strValue;
     emit actualValueChanged();
 }
 
@@ -46,4 +48,13 @@ void RunScreenView::decrement()
 void RunScreenView::dispense()
 {
     emit dispenseRequested();
+}
+
+void RunScreenView::setSetpointInput(const QString &value)
+{
+    bool ok;
+    double doubleValue = value.toDouble(&ok);
+    if (ok) {
+        emit setpointInputRequested(doubleValue);
+    }
 }
