@@ -13,6 +13,15 @@
 # build dir
 build/*
 
+# vim
+*~
+*.swp
+*.swo
+.netrwhist
+tags
+Session.vim
+Sessionx.vim
+[._]*.un~
 # Qt-es
 object_script.*.Release
 object_script.*.Debug
