@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    engine.load(QUrl(QStringLiteral("qrc:/PowderTrickler/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/PowderTrickler/qml/main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
         return -1;
