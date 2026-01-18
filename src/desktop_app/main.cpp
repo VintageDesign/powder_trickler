@@ -2,6 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QUrl>
 
+#include "controller/control_manager.h"
+#include "run_screen_view.h"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -22,6 +25,14 @@ int main(int argc, char *argv[])
 
     if (engine.rootObjects().isEmpty()) {
         return -1;
+    }
+
+    ControlManager controlManager(nullptr);
+
+    auto *rootObject = engine.rootObjects().first();
+    auto *view = rootObject->findChild<RunScreenView*>();
+    if (view) {
+        controlManager.connectView(view);
     }
 
     return app.exec();

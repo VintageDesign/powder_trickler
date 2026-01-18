@@ -2,6 +2,7 @@
 #define RUN_SCREEN_VIEW_H
 
 #include <QObject>
+#include <QString>
 #include <QtQml/qqmlregistration.h>
 
 class RunScreenView : public QObject
@@ -16,12 +17,12 @@ public:
     explicit RunScreenView(QObject *parent = nullptr);
 
     QString setpoint() const;
-    void setSetpoint(double value);
-
     QString actualValue() const;
-    void setActualValue(double value);
 
 public slots:
+    void onSetpointChanged(const QString &value);
+    void onActualValueChanged(const QString &value);
+
     void increment();
     void decrement();
     void dispense();
@@ -30,9 +31,13 @@ signals:
     void setpointChanged();
     void actualValueChanged();
 
+    void incrementRequested();
+    void decrementRequested();
+    void dispenseRequested();
+
 private:
-    double m_setpoint = 0.0;
-    double m_actualValue = 0.0;
+    QString m_setpoint = "0.0";
+    QString m_actualValue = "0.0";
 };
 
 #endif // RUN_SCREEN_VIEW_H

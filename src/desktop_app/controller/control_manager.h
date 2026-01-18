@@ -1,29 +1,34 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
+#include <memory>
 
 #include <interfaces/abstract_controller_interface.h>
-#include <run_screen_view.h>
 
-class ControlManager: public QObject
+class RunScreenView;
+
+class ControlManager : public QObject
 {
     Q_OBJECT
-    public:
-        ControlManager(const std::shared_ptr<AbstractControllerInterface> &controller);
 
-    public slots:
-        void increment();
-        void decrement();
-        void dispense();
+public:
+    explicit ControlManager(const std::shared_ptr<AbstractControllerInterface> &controller,
+                            QObject *parent = nullptr);
 
-    signals:
-        void setpointChanged(double value);
-        void actualValueChanged(double value);
+    void connectView(RunScreenView *view);
 
-    private:
-        std::shared_ptr<AbstractControllerInterface> _controller;
-        double _setpoint_value = 0;
-        double _actual_value = 0;
+public slots:
+    void increment();
+    void decrement();
+    void dispense();
 
+signals:
+    void setpointChanged(const QString &value);
+    void actualValueChanged(const QString &value);
 
+private:
+    std::shared_ptr<AbstractControllerInterface> _controller;
+    double _setpoint_value = 0.0;
+    double _actual_value = 0.0;
 };
