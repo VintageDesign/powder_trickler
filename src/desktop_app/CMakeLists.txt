@@ -29,6 +29,8 @@ qt_add_qml_module(powder_trickler_desktop
     VERSION 1.0
     QML_FILES
         qml/main.qml
+        qml/Settings_tab.qml
+        qml/Run_screen.qml
     SOURCES
         qml/run_screen_view.cpp
         qml/run_screen_view.h
