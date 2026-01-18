@@ -3,7 +3,9 @@
 #include <QUrl>
 
 #include "controller/control_manager.h"
+#include "controller/settings_manager.h"
 #include "run_screen_view.h"
+#include "settings_view.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,18 +30,33 @@ int main(int argc, char *argv[])
     }
 
     ControlManager controlManager(nullptr);
+    SettingsManager settingsManager;
 
     auto *rootObject = engine.rootObjects().first();
-    auto *view = rootObject->findChild<RunScreenView*>();
+    auto *runView = rootObject->findChild<RunScreenView*>();
+    auto *settingsView = rootObject->findChild<SettingsView*>();
 
-    if (view) {
-        QObject::connect(view, &RunScreenView::incrementRequested, &controlManager, &ControlManager::increment);
-        QObject::connect(view, &RunScreenView::decrementRequested, &controlManager, &ControlManager::decrement);
-        QObject::connect(view, &RunScreenView::dispenseRequested, &controlManager, &ControlManager::dispense);
-        QObject::connect(view, &RunScreenView::setpointInputRequested, &controlManager, &ControlManager::setSetpoint);
+    if (runView) {
+        QObject::connect(runView, &RunScreenView::incrementRequested, &controlManager, &ControlManager::increment);
+        QObject::connect(runView, &RunScreenView::decrementRequested, &controlManager, &ControlManager::decrement);
+        QObject::connect(runView, &RunScreenView::dispenseRequested, &controlManager, &ControlManager::dispense);
+        QObject::connect(runView, &RunScreenView::setpointInputRequested, &controlManager, &ControlManager::setSetpoint);
 
-        QObject::connect(&controlManager, &ControlManager::setpointChanged, view, &RunScreenView::onSetpointChanged);
-        QObject::connect(&controlManager, &ControlManager::actualValueChanged, view, &RunScreenView::onActualValueChanged);
+        QObject::connect(&controlManager, &ControlManager::setpointChanged, runView, &RunScreenView::onSetpointChanged);
+        QObject::connect(&controlManager, &ControlManager::actualValueChanged, runView, &RunScreenView::onActualValueChanged);
+    }
+
+    if (settingsView) {
+        QObject::connect(settingsView, &SettingsView::refreshPortsRequested, &settingsManager, &SettingsManager::refreshPorts);
+        QObject::connect(settingsView, &SettingsView::portSelectionRequested, &settingsManager, &SettingsManager::selectPort);
+        QObject::connect(settingsView, &SettingsView::connectRequested, &settingsManager, &SettingsManager::connectToSelectedPort);
+        QObject::connect(settingsView, &SettingsView::disconnectRequested, &settingsManager, &SettingsManager::disconnectFromPort);
+
+        QObject::connect(&settingsManager, &SettingsManager::availablePortsChanged, settingsView, &SettingsView::onAvailablePortsChanged);
+        QObject::connect(&settingsManager, &SettingsManager::selectedPortChanged, settingsView, &SettingsView::onSelectedPortChanged);
+        QObject::connect(&settingsManager, &SettingsManager::connectionStatusChanged, settingsView, &SettingsView::onConnectionStatusChanged);
+
+        settingsManager.refreshPorts();
     }
 
     return app.exec();

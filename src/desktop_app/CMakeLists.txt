@@ -1,5 +1,6 @@
 add_library(powder_trickler_lib STATIC
     controller/control_manager.cpp
+    controller/settings_manager.cpp
     interfaces/abstract_controller_interface.cpp
     interfaces/uart_interface.cpp
 )
@@ -28,6 +29,8 @@ qt_add_qml_module(powder_trickler_desktop
     SOURCES
         run_screen_view.cpp
         run_screen_view.h
+        settings_view.cpp
+        settings_view.h
 )
 
 target_link_libraries(powder_trickler_desktop PRIVATE
